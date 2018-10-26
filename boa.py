@@ -36,7 +36,7 @@ def printstack():
 builtins.printstack = printstack
 
 parser = argparse.ArgumentParser(description='Run a Boa file.')
-parser.add_argument('file', help='the Boa file to read from')
+parser.add_argument('file', nargs='?', help='the Boa file to read from. If not specified, defaults to stdin.')
 parser.add_argument('-C', action='store_true', help='if specified, do not parse comments in strings (i.e. treat the # and everything after as part of the string)')
 cmdargs = parser.parse_args()
 
@@ -100,5 +100,5 @@ def run_boa(fileobj, call=lineno, ret=None):
                 stack.append(variables[line])
         lineno += 1
 
-with open(cmdargs.file) as f:
+with open(cmdargs.file) if cmdargs.file else sys.stdin as f:
     run_boa(f)
