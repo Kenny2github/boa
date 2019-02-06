@@ -86,10 +86,12 @@ def compile_boa(fileobj):
             stack.append(variables[l])
     for lineno, line in enumerate(fileobj):
         line = line.rstrip('\n')
+        if not line:
+            break
         if not (cmdargs.C and line.startswith(('"', "'"))) and '#' in line:
             line = line.rpartition('#')[0]
             if not line.rstrip():
-                break
+                continue
         if line.startswith('<'): #start func
             funcs.append((line[1:], [lineno + 1]))
             ops.append('<')
